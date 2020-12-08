@@ -11,7 +11,7 @@ public class Task implements IEntity {
     @GeneratedValue
     private int ID;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
     @Column

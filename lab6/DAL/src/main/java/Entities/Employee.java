@@ -1,26 +1,29 @@
 package Entities;
 
 import Infrastructure.IEntity;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name =  "Employees")
+@Table(name = "Employees")
 public class Employee implements IEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "incrementor")
+    @GenericGenerator(name = "incrementor", strategy = "increment")
     private int ID;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
-    @Column
+    @ManyToOne
+    @JoinColumn(name = "Id")
     private Employee master;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany
     private List<Employee> slaves;
 
     public Employee() {
