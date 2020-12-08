@@ -1,6 +1,7 @@
 package Entities;
 
 import Infrastructure.IEntity;
+import org.hibernate.annotations.GenericGenerator;
 import util.TaskState;
 import javax.persistence.*;
 
@@ -8,7 +9,8 @@ import javax.persistence.*;
 @Table(name = "Tasks")
 public class Task implements IEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "incrementor")
+    @GenericGenerator(name = "incrementor", strategy = "increment")
     private int ID;
 
     @Column(nullable = false)
