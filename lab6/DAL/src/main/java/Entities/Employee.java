@@ -9,8 +9,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "Employees")
+@Access(value = AccessType.FIELD)
 public class Employee implements IEntity {
-
     @Id
     @GeneratedValue(generator = "incrementor")
     @GenericGenerator(name = "incrementor", strategy = "increment")
@@ -20,10 +20,11 @@ public class Employee implements IEntity {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "Id")
     private Employee master;
 
-    @OneToMany
+//    @OneToMany(mappedBy = "ID", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ElementCollection
+    @CollectionTable(name = "Slaves")
     private List<Employee> slaves;
 
     public Employee() {

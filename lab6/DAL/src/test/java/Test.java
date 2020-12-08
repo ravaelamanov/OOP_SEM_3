@@ -20,9 +20,13 @@ public class Test {
             Employee slave1 = new Employee("Slave 1");
             Employee slave2 = new Employee("Slave 2");
             teamLead.setSlaves(Arrays.asList(slave1, slave2));
+            slave1.setMaster(teamLead);
+            slave2.setMaster(teamLead);
 
-            transaction.commit();
             session.save(teamLead);
+            session.save(slave1);
+            session.save(slave2);
+            transaction.commit();
             session.close();
             factory.close();
         }
