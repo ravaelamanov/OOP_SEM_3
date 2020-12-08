@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Table(name = "Tasks")
 public class Task implements IEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private int ID;
 
     @Column

@@ -11,7 +11,7 @@ import java.util.List;
 public class Employee implements IEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private int ID;
 
     @Column
