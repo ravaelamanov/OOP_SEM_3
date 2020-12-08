@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "Tasks")
+@Access(value = AccessType.FIELD)
 public class Task implements IEntity {
     @Id
     @GeneratedValue(generator = "incrementor")
@@ -19,11 +20,18 @@ public class Task implements IEntity {
     @Column
     private String description;
 
-    @Column
+    @ManyToOne
     private Employee responsibleEmployee;
 
-    @Column
+    @Enumerated(EnumType.STRING)
     private TaskState state;
+
+    public Task() {
+        name = "";
+        description = "";
+        responsibleEmployee = null;
+        state = TaskState.OPEN;
+    }
 
     @Override
     public int getID() {
@@ -64,5 +72,6 @@ public class Task implements IEntity {
 
     public void setResponsibleEmployee(Employee responsibleEmployee) {
         this.responsibleEmployee = responsibleEmployee;
+        setState(TaskState.ACTIVE);
     }
 }

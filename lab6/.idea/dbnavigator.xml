@@ -25,7 +25,7 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="5d63d00c-a1f5-468a-b8f4-0e60ad6d4804">
-        <schema name="RAVAELAMANOV" object-types="synonym, dimension, dblink, index, materialized view, nested table, dataset trigger, view, table, type, function, procedure, constraint, sequence, database trigger, cluster, package, column" />
+        <schema name="RAVAELAMANOV" object-types="synonym, dimension, dblink, materialized view, view, table, type, function, procedure, sequence, database trigger, cluster, package" />
       </connection>
     </loaded-nodes>
   </component>

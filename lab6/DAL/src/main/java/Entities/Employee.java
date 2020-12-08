@@ -22,7 +22,7 @@ public class Employee implements IEntity {
     @ManyToOne
     private Employee master;
 
-    @OneToMany(mappedBy = "master", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "master", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Employee> slaves;
 
     public Employee() {

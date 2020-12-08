@@ -1,4 +1,5 @@
 import Entities.Employee;
+import Entities.Task;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -23,10 +24,15 @@ public class Test {
             teamLead.setSlaves(Arrays.asList(slave1, slave2));
             slave1.setMaster(teamLead);
             slave2.setMaster(teamLead);
+            Task task1 = new Task(); task1.setName("task1"); task1.setDescription("this is task1"); task1.setResponsibleEmployee(slave1);
+            Task task2 = new Task(); task2.setName("task2"); task2.setDescription("this is task2"); task2.setResponsibleEmployee(slave2);
+
 
             session.save(teamLead);
             session.save(slave1);
             session.save(slave2);
+            session.save(task1);
+            session.save(task2);
 
             transaction.commit();
             session.close();
