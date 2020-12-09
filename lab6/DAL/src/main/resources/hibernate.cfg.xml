@@ -8,13 +8,18 @@
         <property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
         <property name="connection.username">ravaelamanov</property>
         <property name="connection.password">r159357r</property>
+        <property name="connection.pool_size">1</property>
 
         <property name="show_sql">true</property>
         <property name="dialect">org.hibernate.dialect.Oracle8iDialect</property>
         <property name="hbm2ddl.auto">create</property>
-        <property name="connection.pool_size">1</property>
 
         <mapping class="Entities.Employee"/>
+        <mapping class="Entities.DailyReport"/>
         <mapping class="Entities.Task"/>
+        <mapping class="Entities.TaskChange"/>
+        <mapping class="Entities.CommentChange"/>
+        <mapping class="Entities.EmployeeChange"/>
+        <mapping class="Entities.StateChange"/>
     </session-factory>
 </hibernate-configuration>

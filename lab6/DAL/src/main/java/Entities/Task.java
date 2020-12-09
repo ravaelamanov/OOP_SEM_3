@@ -4,6 +4,7 @@ import Infrastructure.IEntity;
 import org.hibernate.annotations.GenericGenerator;
 import util.TaskState;
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Tasks")
@@ -21,15 +22,21 @@ public class Task implements IEntity {
     private String description;
 
     @ManyToOne
-    private Employee responsibleEmployee;
+    private Employee employee;
+
+    @ManyToOne
+    private DailyReport report;
 
     @Enumerated(EnumType.STRING)
     private TaskState state;
 
+    @OneToMany(mappedBy = "task", targetEntity = Entities.TaskChange.class, cascade = CascadeType.ALL)
+    private List<TaskChange> changes;
+
     public Task() {
         name = "";
         description = "";
-        responsibleEmployee = null;
+        employee = null;
         state = TaskState.OPEN;
     }
 
@@ -46,12 +53,28 @@ public class Task implements IEntity {
         return name;
     }
 
-    public Employee getResponsibleEmployee() {
-        return responsibleEmployee;
+    public Employee getEmployee() {
+        return employee;
     }
 
     public String getDescription() {
         return description;
+    }
+
+    public DailyReport getReport() {
+        return report;
+    }
+
+    public List<TaskChange> getChanges() {
+        return changes;
+    }
+
+    public void setChanges(List<TaskChange> changes) {
+        this.changes = changes;
+    }
+
+    public void setReport(DailyReport report) {
+        this.report = report;
     }
 
     public void setID(int ID) {
@@ -70,8 +93,7 @@ public class Task implements IEntity {
         this.description = description;
     }
 
-    public void setResponsibleEmployee(Employee responsibleEmployee) {
-        this.responsibleEmployee = responsibleEmployee;
-        setState(TaskState.ACTIVE);
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

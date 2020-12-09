@@ -22,13 +22,21 @@ public class Employee implements IEntity {
     @ManyToOne
     private Employee master;
 
-    @OneToMany(mappedBy = "master", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "master", cascade = CascadeType.ALL)
     private List<Employee> slaves;
+
+    @OneToMany(mappedBy = "employee", targetEntity = Entities.DailyReport.class, cascade = CascadeType.ALL)
+    private List<DailyReport> dailyReports;
+
+    @OneToMany(mappedBy = "employee", targetEntity = Entities.Task.class, cascade = CascadeType.ALL)
+    private List<Task> tasks;
 
     public Employee() {
         name = "";
         master = null;
         slaves = new ArrayList<>();
+        dailyReports = new ArrayList<>();
+        tasks = new ArrayList<>();
     }
 
     public Employee(String name) {
@@ -52,6 +60,22 @@ public class Employee implements IEntity {
 
     public List<Employee> getSlaves() {
         return slaves;
+    }
+
+    public List<DailyReport> getDailyReports() {
+        return dailyReports;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public void setDailyReports(List<DailyReport> dailyReports) {
+        this.dailyReports = dailyReports;
     }
 
     public void setID(int ID) {
