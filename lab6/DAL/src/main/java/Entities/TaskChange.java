@@ -10,6 +10,7 @@ import java.util.Date;
 @Entity
 @Table(name = "task_changes")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "change_type", discriminatorType = DiscriminatorType.STRING)
 public class TaskChange implements IEntity {
 
     @Id

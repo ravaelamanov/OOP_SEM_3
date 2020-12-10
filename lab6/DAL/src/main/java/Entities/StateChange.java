@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Access(value = AccessType.FIELD)
+@DiscriminatorValue("STATE")
 public class StateChange extends TaskChange {
 
     @Enumerated(EnumType.STRING)

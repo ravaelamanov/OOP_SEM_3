@@ -11,6 +11,7 @@
         <property name="connection.pool_size">1</property>
 
         <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
         <property name="dialect">org.hibernate.dialect.Oracle8iDialect</property>
         <property name="hbm2ddl.auto">create</property>
 

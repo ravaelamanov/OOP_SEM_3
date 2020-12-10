@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Access(value = AccessType.FIELD)
+@DiscriminatorValue("COMMENT")
 public class CommentChange extends TaskChange {
 
     @Column

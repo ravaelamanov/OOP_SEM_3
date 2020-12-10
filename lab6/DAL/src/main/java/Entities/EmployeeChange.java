@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Access(value = AccessType.FIELD)
+@DiscriminatorValue("EMPLOYEE_ASSIGNED")
 public class EmployeeChange extends TaskChange {
 
     @ManyToOne
