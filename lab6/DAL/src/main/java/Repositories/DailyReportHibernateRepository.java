@@ -1,13 +1,14 @@
 package Repositories;
 
 import Entities.DailyReport;
-import Entities.Task;
 import org.hibernate.Session;
+
+import java.util.Collection;
 
 public class DailyReportHibernateRepository extends HibernateRepository<DailyReport> implements DailyReportRepository {
 
     @Override
-    protected Iterable<DailyReport> getAllImpl(Session session) {
+    protected Collection<DailyReport> getAllImpl(Session session) {
         return session.createQuery("From DailyReport").list();
     }
 
@@ -18,6 +19,6 @@ public class DailyReportHibernateRepository extends HibernateRepository<DailyRep
 
     @Override
     public void deleteImpl(Session session, int id) {
-        session.delete(session.get(Task.class, id));
+        session.delete(session.get(DailyReport.class, id));
     }
 }

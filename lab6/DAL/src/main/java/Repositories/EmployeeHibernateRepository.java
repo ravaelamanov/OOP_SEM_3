@@ -2,13 +2,12 @@ package Repositories;
 
 import Entities.Employee;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import java.util.List;
+import java.util.Collection;
 
 public class EmployeeHibernateRepository extends HibernateRepository<Employee> implements EmployeeRepository {
     @Override
-    protected Iterable<Employee> getAllImpl(Session session) {
+    protected Collection<Employee> getAllImpl(Session session) {
         return session.createQuery("From Employee").list();
     }
 

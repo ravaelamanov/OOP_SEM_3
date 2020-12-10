@@ -1,4 +1,7 @@
 package Repositories;
 
-public interface TaskRepository {
+import Entities.Task;
+import Infrastructure.IRepository;
+
+public interface TaskRepository extends IRepository<Task> {
 }

@@ -1,6 +1,5 @@
 package Repositories;
 
-import Entities.Employee;
 import Infrastructure.IEntity;
 import Infrastructure.IRepository;
 import org.hibernate.Session;
@@ -10,7 +9,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-import java.util.List;
+import java.util.Collection;
 
 public abstract class HibernateRepository<T extends IEntity> implements IRepository<T> {
     protected static SessionFactory sessionFactory;
@@ -27,8 +26,8 @@ public abstract class HibernateRepository<T extends IEntity> implements IReposit
     }
 
     @Override
-    public Iterable<T> getAll() {
-        Iterable<T> ret = null;
+    public Collection<T> getAll() {
+        Collection<T> ret = null;
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
 
@@ -41,7 +40,7 @@ public abstract class HibernateRepository<T extends IEntity> implements IReposit
         return ret;
     }
 
-    protected abstract Iterable<T> getAllImpl(Session session);
+    protected abstract Collection<T> getAllImpl(Session session);
 
     @Override
     public T get(int id) {

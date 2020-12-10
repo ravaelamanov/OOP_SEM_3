@@ -2,13 +2,13 @@ package Repositories;
 
 import Entities.Task;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import java.util.List;
+import java.util.Collection;
+
 
 public class TaskHibernateRepository extends HibernateRepository<Task> implements TaskRepository {
     @Override
-    protected Iterable<Task> getAllImpl(Session session) {
+    protected Collection<Task> getAllImpl(Session session) {
         return session.createQuery("From Task").list();
     }
 

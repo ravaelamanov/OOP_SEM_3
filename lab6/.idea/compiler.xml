@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="DAL" />
+        <module name="BLL" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="DAL" target="7" />
+      <module name="BLL" target="8" />
+      <module name="DAL" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

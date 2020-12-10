@@ -4,6 +4,7 @@ import Infrastructure.IEntity;
 import org.hibernate.annotations.GenericGenerator;
 import util.TaskState;
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -29,6 +30,9 @@ public class Task implements IEntity {
 
     @Enumerated(EnumType.STRING)
     private TaskState state;
+
+    @Temporal(value = TemporalType.DATE)
+    private Date creation_date;
 
     @OneToMany(mappedBy = "task", targetEntity = Entities.TaskChange.class, cascade = CascadeType.ALL)
     private List<TaskChange> changes;
@@ -67,6 +71,14 @@ public class Task implements IEntity {
 
     public List<TaskChange> getChanges() {
         return changes;
+    }
+
+    public Date getCreation_date() {
+        return creation_date;
+    }
+
+    public void setCreation_date(Date creation_date) {
+        this.creation_date = creation_date;
     }
 
     public void setChanges(List<TaskChange> changes) {

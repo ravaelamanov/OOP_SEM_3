@@ -1,4 +1,7 @@
 package Repositories;
 
-public interface EmployeeRepository {
+import Entities.Employee;
+import Infrastructure.IRepository;
+
+public interface EmployeeRepository extends IRepository<Employee> {
 }
