@@ -6,73 +6,19 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class TaskHibernateRepository extends HibernateRepository<Task> {
+public class TaskHibernateRepository extends HibernateRepository<Task> implements TaskRepository {
     @Override
-    public Iterable<Task> getAll() {
-        List ret = null;
-        try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-
-            ret = session.createQuery("From Task").list();
-
-            transaction.commit();
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-        }
-        return ret;
+    protected Iterable<Task> getAllImpl(Session session) {
+        return session.createQuery("From Task").list();
     }
 
     @Override
-    public Task get(int id) {
-        Task ret = null;
-        try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-
-            ret = session.get(Task.class, id);
-
-            transaction.commit();
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-        }
-        return ret;
+    public Task getImpl(Session session, int id) {
+        return session.get(Task.class, id);
     }
 
     @Override
-    public void add(Task entity) {
-        try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-
-            session.save(entity);
-
-            transaction.commit();
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-        }
-    }
-
-    @Override
-    public void update(Task entity) {
-        try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-
-            session.update(entity);
-
-            transaction.commit();
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-        }
-    }
-
-    @Override
-    public void delete(int id) {
-        try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-
-            session.delete(session.get(Task.class, id));
-
-            transaction.commit();
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-        }
+    public void deleteImpl(Session session, int id) {
+        session.delete(session.get(Task.class, id));
     }
 }

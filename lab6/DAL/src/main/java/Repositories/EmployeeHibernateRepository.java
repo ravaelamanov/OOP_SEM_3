@@ -6,73 +6,20 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class EmployeeHibernateRepository extends HibernateRepository<Employee> {
+public class EmployeeHibernateRepository extends HibernateRepository<Employee> implements EmployeeRepository {
     @Override
-    public Iterable<Employee> getAll() {
-        List ret = null;
-        try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-
-            ret = session.createQuery("From Employee").list();
-
-            transaction.commit();
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-        }
-        return ret;
+    protected Iterable<Employee> getAllImpl(Session session) {
+        return session.createQuery("From Employee").list();
     }
 
     @Override
-    public Employee get(int id) {
-        Employee ret = null;
-        try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-
-            ret = session.get(Employee.class, id);
-
-            transaction.commit();
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-        }
-        return ret;
+    public Employee getImpl(Session session, int id) {
+        return session.get(Employee.class, id);
     }
 
-    @Override
-    public void add(Employee entity) {
-        try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-
-            session.save(entity);
-
-            transaction.commit();
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-        }
-    }
 
     @Override
-    public void update(Employee entity) {
-        try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-
-            session.update(entity);
-
-            transaction.commit();
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-        }
-    }
-
-    @Override
-    public void delete(int id) {
-        try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-
-            session.delete(session.get(Employee.class, id));
-
-            transaction.commit();
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-        }
+    public void deleteImpl(Session session, int id) {
+        session.delete(session.get(Employee.class, id));
     }
 }

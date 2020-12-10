@@ -11,7 +11,7 @@ import java.util.Date;
 @Table(name = "task_changes")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "change_type", discriminatorType = DiscriminatorType.STRING)
-public class TaskChange implements IEntity {
+public abstract class TaskChange implements IEntity {
 
     @Id
     @GeneratedValue(generator = "incrementor")
