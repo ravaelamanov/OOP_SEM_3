@@ -2,6 +2,8 @@ import DTO.Employee;
 import DTO.Task;
 import Repositories.EmployeeRepository;
 import Repositories.TaskRepository;
+import TaskChanges.Comment;
+import org.hibernate.CacheMode;
 import util.EntityConverter;
 import util.TaskState;
 
@@ -53,20 +55,18 @@ public class TaskManagementSystem {
     }
 
     public void editTaskState(Task task, TaskState state) {
-        task.setState(state);
+        task.changeState(state);
         taskRepository.update(EntityConverter.convert(task));
     }
 
     public void addComment(Task task, String comment) {
-        //add comment to task
+        task.addComment(comment);
         taskRepository.update(EntityConverter.convert(task));
     }
 
     public void changeEmployee(Task task, Employee employee) {
         Employee oldEmployee = EntityConverter.convert(taskRepository.get(task.getId()).getEmployee());
-        oldEmployee.deleteTask(task.getId());
-        employee.addTask(task);
-        task.setEmployee(employee);
+        task.changeEmployee(employee);
 
         taskRepository.update(EntityConverter.convert(task));
         employeeRepository.update(EntityConverter.convert(oldEmployee));

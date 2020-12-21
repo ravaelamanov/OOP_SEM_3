@@ -1,23 +1,50 @@
 package DTO;
 
+import TaskChanges.Comment;
+import TaskChanges.EmployeeChange;
+import TaskChanges.StateChange;
 import util.TaskState;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Task {
-    int Id;
-    String name;
-    String description;
-    Employee employee;
-    TaskState state;
-    DailyReport report;
-    Date creationDate;
+    private int Id;
+    private String name;
+    private String description;
+    private Employee employee;
+    private TaskState state;
+    private DailyReport report;
+    private Date creationDate;
+    private List<TaskChange> changes;
 
-    public Task() {}
+    public Task() {
+        changes = new ArrayList<>();
+    }
 
-    public Task(String name, String description) {
-        this.name = name;
-        this.description = description;
+    public void addComment(String comment) {
+        TaskChange taskChange = new Comment(comment);
+        addChange(taskChange);
+    }
+
+    public void changeState(TaskState state) {
+        setState(state);
+        TaskChange taskChange = new StateChange(state);
+        addChange(taskChange);
+    }
+
+    public void changeEmployee(Employee employee) {
+        this.employee.deleteTask(this.getId());
+        employee.addTask(this);
+        setEmployee(employee);
+        TaskChange taskChange = new EmployeeChange(employee);
+        addChange(taskChange);
+    }
+
+    private void addChange(TaskChange change) {
+        change.setCreationDate(new Date());
+        changes.add(change);
     }
 
     public int getId() {
@@ -46,6 +73,14 @@ public class Task {
 
     public Date getCreationDate() {
         return creationDate;
+    }
+
+    public List<TaskChange> getChanges() {
+        return changes;
+    }
+
+    public void setChanges(List<TaskChange> changes) {
+        this.changes = changes;
     }
 
     public void setReport(DailyReport report) {
