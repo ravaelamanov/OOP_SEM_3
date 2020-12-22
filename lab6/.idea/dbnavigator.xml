@@ -23,7 +23,11 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="5d63d00c-a1f5-468a-b8f4-0e60ad6d4804">
+        <schema name="RAVAELAMANOV" object-types="materialized view, dblink, view, table, cluster, type, sequence, package, database trigger, function, synonym, dimension, procedure" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="17b40b63-5559-4a2a-8766-caca618c848f">

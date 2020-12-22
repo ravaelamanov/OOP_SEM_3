@@ -2,11 +2,10 @@ import DTO.Employee;
 import DTO.Task;
 import Repositories.EmployeeRepository;
 import Repositories.TaskRepository;
-import TaskChanges.Comment;
-import org.hibernate.CacheMode;
 import util.EntityConverter;
 import util.TaskState;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -46,12 +45,14 @@ public class TaskManagementSystem {
     }
 
     public List<Task> getIfModifiedBy(Employee employee) {
-        Collection<Entities.Task> dalTasks = taskRepository.find(task -> task.getChanges().stream().anyMatch(change -> change.));
+        Collection<Entities.Task> dalTasks = null;// = taskRepository.find(task -> task.getChanges().stream().anyMatch(change -> change.));
         return dalTasks.stream().map(EntityConverter::convert).collect(Collectors.toList());
     }
 
     public void createTask(Task task) {
-        taskRepository.add(EntityConverter.convert(task));
+        Entities.Task dalTask = EntityConverter.convert(task);
+        taskRepository.add(dalTask);
+        task.setId(dalTask.getID());
     }
 
     public void editTaskState(Task task, TaskState state) {
@@ -70,6 +71,16 @@ public class TaskManagementSystem {
 
         taskRepository.update(EntityConverter.convert(task));
         employeeRepository.update(EntityConverter.convert(oldEmployee));
+        employeeRepository.update(EntityConverter.convert(employee));
+    }
+
+    public void createEmployee(Employee employee) {
+        Entities.Employee dalEmployee = EntityConverter.convert(employee);
+        employeeRepository.add(dalEmployee);
+        employee.setId(dalEmployee.getID());
+    }
+
+    public void updateEmployee(Employee employee) {
         employeeRepository.update(EntityConverter.convert(employee));
     }
 }

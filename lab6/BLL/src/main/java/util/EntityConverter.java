@@ -7,7 +7,6 @@ import TaskChanges.Comment;
 import TaskChanges.EmployeeChange;
 import TaskChanges.StateChange;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.stream.Collectors;
 
 public class EntityConverter {

@@ -20,6 +20,13 @@ public class Employee {
         tasks.add(task);
     }
 
+    public void addSlave(Employee employee) {
+         if (slaves.stream().noneMatch(employee1 -> employee1.getId() == employee.getId())) {
+             slaves.add(employee);
+             employee.setMaster(employee);
+         }
+    }
+
     public void deleteTask(int id) {
         tasks.removeIf(task -> task.getId() == id);
     }
