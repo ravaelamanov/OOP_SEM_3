@@ -14,7 +14,7 @@ public class Employee implements IEntity {
     @Id
     @GeneratedValue(generator = "incrementor")
     @GenericGenerator(name = "incrementor", strategy = "increment")
-    private int ID;
+    private Integer ID;
 
     @Column(nullable = false)
     private String name;

@@ -56,6 +56,8 @@ public class EntityConverter {
     public static Entities.Employee convert(Employee employee) {
         if (employee == null) return null;
 
+        System.out.println(employee.getName());
+
         Entities.Employee dalEmployee = new Entities.Employee();
 
         dalEmployee.setID(employee.getId());

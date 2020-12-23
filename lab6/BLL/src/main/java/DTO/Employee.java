@@ -23,7 +23,7 @@ public class Employee {
     public void addSlave(Employee employee) {
          if (slaves.stream().noneMatch(employee1 -> employee1.getId() == employee.getId())) {
              slaves.add(employee);
-             employee.setMaster(employee);
+             employee.setMaster(this);
          }
     }
 
