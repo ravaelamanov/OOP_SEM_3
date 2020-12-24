@@ -23,27 +23,33 @@ public class Task {
         changes = new ArrayList<>();
     }
 
-    public void addComment(String comment) {
+    public TaskChange addComment(String comment) {
         TaskChange taskChange = new Comment(comment);
         addChange(taskChange);
+        return taskChange;
     }
 
-    public void changeState(TaskState state) {
+    public TaskChange changeState(TaskState state) {
         setState(state);
         TaskChange taskChange = new StateChange(state);
         addChange(taskChange);
+        return taskChange;
     }
 
-    public void changeEmployee(Employee employee) {
-        this.employee.deleteTask(this.getId());
+    public TaskChange changeEmployee(Employee employee) {
+        if (this.employee != null) {
+            this.employee.deleteTask(this.getId());
+        }
         employee.addTask(this);
         setEmployee(employee);
         TaskChange taskChange = new EmployeeChange(employee);
         addChange(taskChange);
+        return taskChange;
     }
 
     private void addChange(TaskChange change) {
         change.setCreationDate(new Date());
+        change.setTask(this);
         changes.add(change);
     }
 

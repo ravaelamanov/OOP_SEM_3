@@ -15,13 +15,14 @@ public abstract class HibernateRepository<T extends IEntity> implements IReposit
     protected static SessionFactory sessionFactory;
 
     protected HibernateRepository() {
-        try {
-            final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
-            sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-        }
-        catch (Throwable ex) {
-            System.err.println("Couldn't initialize session factory! " + ex);
-            throw new ExceptionInInitializerError(ex);
+        if (sessionFactory == null) {
+            try {
+                final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+                sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+            } catch (Throwable ex) {
+                System.err.println("Couldn't initialize session factory! " + ex);
+                throw new ExceptionInInitializerError(ex);
+            }
         }
     }
 

@@ -93,4 +93,8 @@ public class Employee implements IEntity {
     public void setSlaves(List<Employee> slaves) {
         this.slaves = slaves;
     }
+
+    public void addSlave(Employee employee) {
+        slaves.add(employee);
+    }
 }

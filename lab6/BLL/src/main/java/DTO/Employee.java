@@ -6,12 +6,12 @@ import java.util.List;
 public class Employee {
     int Id;
     private String name;
-    Employee master;
+    Integer masterID;
     List<Employee> slaves;
     List<Task> tasks;
 
     public Employee() {
-        master = null;
+        masterID = null;
         slaves = new ArrayList<>();
         tasks = new ArrayList<>();
     }
@@ -23,7 +23,7 @@ public class Employee {
     public void addSlave(Employee employee) {
          if (slaves.stream().noneMatch(employee1 -> employee1.getId() == employee.getId())) {
              slaves.add(employee);
-             employee.setMaster(this);
+             employee.setMasterID(this.getId());
          }
     }
 
@@ -39,8 +39,8 @@ public class Employee {
         return slaves;
     }
 
-    public Employee getMaster() {
-        return master;
+    public Integer getMasterID() {
+        return masterID;
     }
 
     public int getId() {
@@ -59,8 +59,8 @@ public class Employee {
         Id = id;
     }
 
-    public void setMaster(Employee master) {
-        this.master = master;
+    public void setMasterID(Integer masterID) {
+        this.masterID = masterID;
     }
 
     public void setName(String name) {

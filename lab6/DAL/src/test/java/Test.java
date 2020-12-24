@@ -57,8 +57,8 @@ public class Test {
         Employee slave1 = new Employee(); slave1.setName("slave1");
         Employee slave2 = new Employee(); slave2.setName("slave2");
         teamlead.setSlaves(Arrays.asList(slave1, slave2));
-        slave1.setMaster(teamlead);
-        slave2.setMaster(teamlead);
+/*        slave1.setMaster(teamlead);
+        slave2.setMaster(teamlead);*/
 
         employees.add(teamlead);
         employees.add(slave1);
