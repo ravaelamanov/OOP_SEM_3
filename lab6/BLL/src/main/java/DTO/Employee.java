@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Employee {
-    int Id;
+    private int Id;
     private String name;
-    Integer masterID;
-    List<Employee> slaves;
-    List<Task> tasks;
+    private Integer masterID;
+    private List<Employee> slaves;
+    private List<Task> tasks;
+    private DailyReport dailyReport;
 
     public Employee() {
         masterID = null;
@@ -45,6 +46,14 @@ public class Employee {
 
     public int getId() {
         return Id;
+    }
+
+    public DailyReport getDailyReport() {
+        return dailyReport;
+    }
+
+    public void setDailyReport(DailyReport dailyReport) {
+        this.dailyReport = dailyReport;
     }
 
     public List<Task> getTasks() {

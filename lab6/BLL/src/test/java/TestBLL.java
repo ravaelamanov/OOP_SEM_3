@@ -8,6 +8,7 @@ public class TestBLL {
         AbstractRepositoryFactory factory = new HibernateRepositoryFactory();
         TaskManagementSystem taskManagementSystem = new TaskManagementSystem(factory);
         EmployeeManagementSystem employeeManagementSystem = new EmployeeManagementSystem(factory);
+        ReportManagementSystem reportManagementSystem = new ReportManagementSystem(factory);
 
         Employee teamLead = new Employee();
         teamLead.setName("Team lead");

@@ -1,5 +1,3 @@
-package util;
-
 import DTO.DailyReport;
 import DTO.Employee;
 import DTO.Task;
@@ -9,10 +7,16 @@ import Repositories.TaskRepository;
 import TaskChanges.Comment;
 import TaskChanges.EmployeeChange;
 import TaskChanges.StateChange;
+import util.AbstractRepositoryFactory;
 
 import java.util.stream.Collectors;
 
-public class EntityConverter {
+public class EntityConverter extends BLLService {
+
+    public EntityConverter(AbstractRepositoryFactory factory) {
+        super(factory);
+    }
+
     public static Task convert(Entities.Task task) {
         Task bllTask = new Task();
 
@@ -28,7 +32,7 @@ public class EntityConverter {
         return bllTask;
     }
 
-    public static Entities.Task convert(Task task, EmployeeRepository employeeRepository) {
+    public static Entities.Task convert(Task task) {
         Entities.Task dalTask = new Entities.Task();
 
         dalTask.setID(task.getId());
@@ -62,7 +66,7 @@ public class EntityConverter {
         return bllEmployee;
     }
 
-    public static Entities.Employee convert(Employee employee, EmployeeRepository employeeRepository) {
+    public static Entities.Employee convert(Employee employee) {
         if (employee == null) return null;
 
 
@@ -75,8 +79,8 @@ public class EntityConverter {
             master = employeeRepository.get(employee.getMasterID());
         }
         dalEmployee.setMaster(master);
-        dalEmployee.setSlaves(employee.getSlaves().stream().map(employee1 -> convert(employee1, employeeRepository)).collect(Collectors.toList()));
-        dalEmployee.setTasks(employee.getTasks().stream().map(task -> convert(task, employeeRepository)).collect(Collectors.toList()));
+        dalEmployee.setSlaves(employee.getSlaves().stream().map(EntityConverter::convert).collect(Collectors.toList()));
+        dalEmployee.setTasks(employee.getTasks().stream().map(EntityConverter::convert).collect(Collectors.toList()));
 
         return dalEmployee;
     }
@@ -114,14 +118,14 @@ public class EntityConverter {
         return bllEmployeeChange;
     }
 
-    public static Entities.TaskChange convert(TaskChange bllChange, EmployeeRepository employeeRepository, TaskRepository taskRepository) {
+    public static Entities.TaskChange convert(TaskChange bllChange) {
         Entities.TaskChange dalChange = null;
         if (bllChange instanceof Comment) {
             dalChange = convert((Comment) bllChange);
         } else if (bllChange instanceof StateChange) {
             dalChange = convert((StateChange) bllChange);
         } else if (bllChange instanceof EmployeeChange) {
-            dalChange = convert((EmployeeChange) bllChange, employeeRepository);
+            dalChange = convert((EmployeeChange) bllChange);
         }
         dalChange.setID(bllChange.getId());
         dalChange.setCreationDate(bllChange.getCreationDate());
@@ -141,19 +145,19 @@ public class EntityConverter {
         return dalStateChange;
     }
 
-    private static Entities.EmployeeChange convert(EmployeeChange employeeChange, EmployeeRepository employeeRepository) {
+    private static Entities.EmployeeChange convert(EmployeeChange employeeChange) {
         Entities.EmployeeChange dalEmployeeChange = new Entities.EmployeeChange();
-        dalEmployeeChange.setEmployee(convert(employeeChange.getEmployee(), employeeRepository));
+        dalEmployeeChange.setEmployee(convert(employeeChange.getEmployee()));
         return dalEmployeeChange;
     }
 
-    public static Entities.DailyReport convert(DailyReport dailyReport, EmployeeRepository employeeRepository) {
+    public static Entities.DailyReport convert(DailyReport dailyReport) {
         Entities.DailyReport dalDailyReport = new Entities.DailyReport();
 
         dalDailyReport.setID(dailyReport.getId());
-        dalDailyReport.setEmployee(convert(dailyReport.getEmployee(), employeeRepository));
+        dalDailyReport.setEmployee(convert(dailyReport.getEmployee()));
         dalDailyReport.setCreationDate(dailyReport.getCreationDate());
-        dalDailyReport.setAccomplishedTasks(dailyReport.getAccomplishedTasks().stream().map(task -> EntityConverter.convert(task, employeeRepository)).collect(Collectors.toList()));
+        dalDailyReport.setAccomplishedTasks(dailyReport.getAccomplishedTasks().stream().map(EntityConverter::convert).collect(Collectors.toList()));
 
         return dalDailyReport;
     }

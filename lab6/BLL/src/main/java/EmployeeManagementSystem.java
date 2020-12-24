@@ -1,6 +1,6 @@
+import DTO.DailyReport;
 import DTO.Employee;
 import util.AbstractRepositoryFactory;
-import util.EntityConverter;
 
 public class EmployeeManagementSystem extends BLLService{
 
@@ -9,13 +9,14 @@ public class EmployeeManagementSystem extends BLLService{
     }
 
     public void createEmployee(Employee employee) {
-        Entities.Employee dalEmployee = EntityConverter.convert(employee, employeeRepository);
+        employee.setDailyReport(new DailyReport());
+        Entities.Employee dalEmployee = EntityConverter.convert(employee);
         employeeRepository.add(dalEmployee);
         employee.setId(dalEmployee.getID());
     }
 
     public void updateEmployee(Employee employee) {
-        employeeRepository.update(EntityConverter.convert(employee, employeeRepository));
+        employeeRepository.update(EntityConverter.convert(employee));
     }
 
     public void addSlave(Employee master, Employee slave) {

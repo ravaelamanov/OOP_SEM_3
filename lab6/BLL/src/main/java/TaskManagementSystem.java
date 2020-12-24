@@ -1,12 +1,7 @@
 import DTO.Employee;
 import DTO.Task;
 import DTO.TaskChange;
-import Repositories.DailyReportRepository;
-import Repositories.EmployeeRepository;
-import Repositories.TaskChangeRepository;
-import Repositories.TaskRepository;
 import util.AbstractRepositoryFactory;
-import util.EntityConverter;
 import util.TaskState;
 
 import java.util.Collection;
@@ -36,7 +31,7 @@ public class TaskManagementSystem extends BLLService {
     }
 
     public List<Task> getByEmployee(Employee employee) {
-        Entities.Employee dalEmployee = EntityConverter.convert(employee, employeeRepository);
+        Entities.Employee dalEmployee = EntityConverter.convert(employee);
         Collection<Entities.Task> dalTasks = taskRepository.find(task -> task.getEmployee().getID() == dalEmployee.getID());
         return dalTasks.stream().map(EntityConverter::convert).collect(Collectors.toList());
     }
@@ -54,7 +49,7 @@ public class TaskManagementSystem extends BLLService {
     public void createTask(Task task) {
         editTaskState(task, TaskState.OPEN);
         task.setCreationDate(new Date());
-        Entities.Task dalTask = EntityConverter.convert(task, employeeRepository);
+        Entities.Task dalTask = EntityConverter.convert(task);
         taskRepository.add(dalTask);
         task.setId(dalTask.getID());
     }
@@ -80,12 +75,12 @@ public class TaskManagementSystem extends BLLService {
 
     private void addTaskChange(TaskChange taskChange) {
         taskChange.setCreationDate(new Date());
-        Entities.TaskChange dalTaskChange = EntityConverter.convert(taskChange, employeeRepository, taskRepository);
+        Entities.TaskChange dalTaskChange = EntityConverter.convert(taskChange);
         taskChangeRepository.add(dalTaskChange);
         taskChange.setId(dalTaskChange.getID());
     }
 
     private void updateTask(Task task) {
-        taskRepository.update(EntityConverter.convert(task, employeeRepository));
+        taskRepository.update(EntityConverter.convert(task));
     }
 }
