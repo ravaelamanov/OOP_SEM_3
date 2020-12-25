@@ -8,8 +8,6 @@ public abstract class TaskChange {
     protected Task task;
     protected Date creationDate;
 
-
-
     public Date getCreationDate() {
         return creationDate;
     }

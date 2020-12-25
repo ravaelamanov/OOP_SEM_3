@@ -1,3 +1,8 @@
+import BLLServicies.EmployeeManagementSystem;
+import BLLServicies.EntityConverter;
+import BLLServicies.ReportManagementSystem;
+import BLLServicies.TaskManagementSystem;
+import DTO.DailyReport;
 import DTO.Employee;
 import DTO.Task;
 import util.AbstractRepositoryFactory;
@@ -16,6 +21,7 @@ public class TestBLL {
         Employee employee1 = EmployeeManagementSystem.get(2);
         Task task1 = TaskManagementSystem.get(1);
         TaskManagementSystem.changeEmployee(task1, employee1);
+        EmployeeManagementSystem.commentTask(employee1, task1, "Commenting task 1 for the first time");
 
         Employee employee2 = EmployeeManagementSystem.get(3);
         Task task2 = TaskManagementSystem.get(2);
@@ -35,6 +41,8 @@ public class TestBLL {
         EmployeeManagementSystem.solveTask(employee2, task2);
         EmployeeManagementSystem.solveTask(employee3, task3);
         EmployeeManagementSystem.solveTask(employee4, task4);
+
+        DailyReport dailyReport = ReportManagementSystem.get(2);
     }
 
     public static void fillDB() {

@@ -1,9 +1,13 @@
+package BLLServicies;
+
 import DTO.DailyReport;
 import DTO.Employee;
 import DTO.Task;
 import Repositories.EmployeeRepository;
 import util.AbstractRepositoryFactory;
-import util.TaskState;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EmployeeManagementSystem extends BLLService{
 
@@ -24,7 +28,6 @@ public class EmployeeManagementSystem extends BLLService{
 
     public static void createEmployee(Employee employee) {
         DailyReport report = new DailyReport();
-        employee.setDailyReport(report);
 
         Entities.Employee dalEmployee = EntityConverter.convert(employee);
         employeeRepository.add(dalEmployee);
@@ -48,5 +51,16 @@ public class EmployeeManagementSystem extends BLLService{
             throw new Exception("No task " + task.getId() + " for employee " + employee.getId());
         }
         TaskManagementSystem.solveTask(task);
+    }
+
+    public static void commentTask(Employee employee, Task task, String comment) throws Exception {
+        if (task.getEmployee().getId() != employee.getId()){
+            throw new Exception("No task " + task.getId() + " for employee " + employee.getId());
+        }
+        TaskManagementSystem.addComment(task, comment);
+    }
+
+    public static List<Employee> getSlaves(Employee employee) {
+        return employeeRepository.getSlaves(EntityConverter.convert(employee)).stream().map(EntityConverter::convert).collect(Collectors.toList());
     }
 }

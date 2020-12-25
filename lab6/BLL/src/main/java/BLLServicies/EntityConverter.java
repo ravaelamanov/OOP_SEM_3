@@ -1,3 +1,5 @@
+package BLLServicies;
+
 import DTO.DailyReport;
 import DTO.Employee;
 import DTO.Task;
@@ -10,8 +12,6 @@ import TaskChanges.Comment;
 import TaskChanges.EmployeeChange;
 import TaskChanges.StateChange;
 import util.AbstractRepositoryFactory;
-
-import java.util.stream.Collectors;
 
 public class EntityConverter extends BLLService {
 
@@ -42,7 +42,6 @@ public class EntityConverter extends BLLService {
         bllTask.setCreationDate(task.getCreationDate());
         bllTask.setEmployee(EntityConverter.convert(task.getEmployee()));
         bllTask.setDailyReport(EntityConverter.convert(task.getReport()));
-        bllTask.setChanges(taskChangeRepository.getByTask(task).stream().map(EntityConverter::convert).collect(Collectors.toList()));
 
         return bllTask;
     }
@@ -76,9 +75,11 @@ public class EntityConverter extends BLLService {
 
         bllEmployee.setId(employee.getID());
         bllEmployee.setName(employee.getName());
-        bllEmployee.setSlaves(employeeRepository.getSlaves(employee).stream().map(EntityConverter::convert).collect(Collectors.toList()));
-        bllEmployee.setTasks(taskRepository.getByEmployee(employee).stream().map(EntityConverter::convert).collect(Collectors.toList()));
-        bllEmployee.setDailyReport(EntityConverter.convert(dailyReportRepository.getLastByEmployee(employee)));
+        Integer masterId = null;
+        if (employee.getMaster() != null) {
+            masterId = employee.getMaster().getID();
+        }
+        bllEmployee.setMasterID(masterId);
 
         return bllEmployee;
     }
@@ -188,7 +189,6 @@ public class EntityConverter extends BLLService {
         bllDailyReport.setId(dailyReport.getID());
         bllDailyReport.setEmployee(convert(dailyReport.getEmployee()));
         bllDailyReport.setCreationDate(dailyReport.getCreationDate());
-        bllDailyReport.setAccomplishedTasks(taskRepository.getByReport(dailyReport).stream().map(EntityConverter::convert).collect(Collectors.toList()));
 
         return bllDailyReport;
 

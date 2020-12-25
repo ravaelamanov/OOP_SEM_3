@@ -1,3 +1,5 @@
+package BLLServicies;
+
 import DTO.Employee;
 import DTO.Task;
 import DTO.TaskChange;
@@ -59,7 +61,7 @@ public class TaskManagementSystem extends BLLService {
     }
 
     public static List<Task> getSlavesTasks(Employee employee) {
-        Collection<Entities.Task> dalTasks = taskRepository.find(task -> employee.getSlaves().stream().anyMatch(slave -> slave.getId() == task.getEmployee().getID()));
+        Collection<Entities.Task> dalTasks = taskRepository.find(task -> EmployeeManagementSystem.getSlaves(employee).stream().anyMatch(slave -> slave.getId() == task.getEmployee().getID()));
         return dalTasks.stream().map(EntityConverter::convert).collect(Collectors.toList());
     }
 
@@ -75,7 +77,7 @@ public class TaskManagementSystem extends BLLService {
         if (task.getEmployee() == null) {
             throw new Exception("solve task exception");
         }
-        task.setDailyReport(task.getEmployee().getDailyReport());
+        task.setDailyReport(ReportManagementSystem.getLastByEmployee(task.getEmployee()));
         editTaskState(task, TaskState.RESOLVED);
     }
 

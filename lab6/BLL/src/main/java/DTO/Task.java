@@ -5,9 +5,7 @@ import TaskChanges.EmployeeChange;
 import TaskChanges.StateChange;
 import util.TaskState;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class Task {
     private int Id;
@@ -17,10 +15,13 @@ public class Task {
     private DailyReport dailyReport;
     private TaskState state;
     private Date creationDate;
-    private List<TaskChange> changes;
 
     public Task() {
-        changes = new ArrayList<>();
+    }
+
+    public Task(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
 
     public TaskChange addComment(String comment) {
@@ -37,9 +38,6 @@ public class Task {
     }
 
     public TaskChange changeEmployee(Employee employee) {
-        if (this.employee != null) {
-            this.employee.getTasks().removeIf(task -> task.getId() == this.getId());
-        }
         this.employee = employee;
         employee.addTask(this);
         TaskChange taskChange = new EmployeeChange(employee);
@@ -50,7 +48,6 @@ public class Task {
     private void addChange(TaskChange change) {
         change.setCreationDate(new Date());
         change.setTask(this);
-        changes.add(change);
     }
 
     public int getId() {
@@ -73,10 +70,6 @@ public class Task {
         return creationDate;
     }
 
-    public List<TaskChange> getChanges() {
-        return changes;
-    }
-
     public Employee getEmployee() {
         return employee;
     }
@@ -91,10 +84,6 @@ public class Task {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
-    }
-
-    public void setChanges(List<TaskChange> changes) {
-        this.changes = changes;
     }
 
     public void setCreationDate(Date creationDate) {

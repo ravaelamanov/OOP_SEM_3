@@ -1,4 +1,7 @@
+package BLLServicies;
+
 import DTO.DailyReport;
+import DTO.Employee;
 import Repositories.DailyReportRepository;
 import util.AbstractRepositoryFactory;
 
@@ -16,6 +19,10 @@ public class ReportManagementSystem extends BLLService {
         dailyReportRepository = factory.createDailyReportRepository();
     }
 
+    public static DailyReport get(int id) {
+        return EntityConverter.convert(dailyReportRepository.get(id));
+    }
+
     public static void createDailyReport(DailyReport dailyReport) {
         dailyReport.setCreationDate(new Date());
         Entities.DailyReport dalDailyReport = EntityConverter.convert(dailyReport);
@@ -25,5 +32,9 @@ public class ReportManagementSystem extends BLLService {
 
     public static void updateDailyReport(DailyReport dailyReport) {
         dailyReportRepository.update(EntityConverter.convert(dailyReport));
+    }
+
+    public static DailyReport getLastByEmployee(Employee employee) {
+        return  EntityConverter.convert(dailyReportRepository.getLastByEmployee(EntityConverter.convert(employee)));
     }
 }
