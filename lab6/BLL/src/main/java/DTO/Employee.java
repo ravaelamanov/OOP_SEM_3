@@ -1,7 +1,7 @@
 package DTO;
 
 public class Employee {
-    private Integer Id;
+    private int Id;
     private String name;
     private Integer masterID;
 
