@@ -9,7 +9,7 @@ import java.util.Collection;
 
 public interface TaskRepository extends IRepository<Task> {
     default Collection<Task> getByEmployee(Employee employee) {
-        return find(task -> task.getEmployee().getID() == employee.getID());
+        return find(task -> task.getEmployee() != null && task.getEmployee().getID() == employee.getID());
     }
 
     default Collection<Task> getByReport(DailyReport report) {

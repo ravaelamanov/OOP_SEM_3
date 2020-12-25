@@ -13,8 +13,28 @@ public class TestBLL {
 
         fillDB();
 
+        Employee employee1 = EmployeeManagementSystem.get(2);
+        Task task1 = TaskManagementSystem.get(1);
+        TaskManagementSystem.changeEmployee(task1, employee1);
+
+        Employee employee2 = EmployeeManagementSystem.get(3);
+        Task task2 = TaskManagementSystem.get(2);
+        TaskManagementSystem.changeEmployee(task2, employee2);
 
 
+        Employee employee3 = EmployeeManagementSystem.get(4);
+        Task task3 = TaskManagementSystem.get(3);
+        TaskManagementSystem.changeEmployee(task3, employee3);
+
+
+        Employee employee4 = EmployeeManagementSystem.get(5);
+        Task task4 = TaskManagementSystem.get(4);
+        TaskManagementSystem.changeEmployee(task4, employee4);
+
+        EmployeeManagementSystem.solveTask(employee1, task1);
+        EmployeeManagementSystem.solveTask(employee2, task2);
+        EmployeeManagementSystem.solveTask(employee3, task3);
+        EmployeeManagementSystem.solveTask(employee4, task4);
     }
 
     public static void fillDB() {
