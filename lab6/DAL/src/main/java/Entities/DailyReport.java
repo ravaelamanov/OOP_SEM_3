@@ -17,9 +17,6 @@ public class DailyReport implements IEntity {
     @GenericGenerator(name = "incrementor", strategy = "increment")
     private int ID;
 
-    @OneToMany(mappedBy = "report", targetEntity = Entities.Task.class, cascade = CascadeType.ALL)
-    private List<Task> accomplishedTasks;
-
     @ManyToOne
     private Employee employee;
 
@@ -28,7 +25,6 @@ public class DailyReport implements IEntity {
     Date creationDate;
 
     public DailyReport() {
-        accomplishedTasks = new ArrayList<>();
     }
 
 
@@ -37,9 +33,6 @@ public class DailyReport implements IEntity {
         return ID;
     }
 
-    public List<Task> getAccomplishedTasks() {
-        return accomplishedTasks;
-    }
 
     public Employee getEmployee() {
         return employee;
@@ -59,9 +52,5 @@ public class DailyReport implements IEntity {
 
     public void setID(int ID) {
         this.ID = ID;
-    }
-
-    public void setAccomplishedTasks(List<Task> accomplishedTasks) {
-        this.accomplishedTasks = accomplishedTasks;
     }
 }

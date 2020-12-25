@@ -14,8 +14,8 @@ public class Task {
     private String name;
     private String description;
     private Employee employee;
+    private DailyReport dailyReport;
     private TaskState state;
-    private DailyReport report;
     private Date creationDate;
     private List<TaskChange> changes;
 
@@ -38,10 +38,10 @@ public class Task {
 
     public TaskChange changeEmployee(Employee employee) {
         if (this.employee != null) {
-            this.employee.deleteTask(this.getId());
+            this.employee.getTasks().removeIf(task -> task.getId() == this.getId());
         }
+        this.employee = employee;
         employee.addTask(this);
-        setEmployee(employee);
         TaskChange taskChange = new EmployeeChange(employee);
         addChange(taskChange);
         return taskChange;
@@ -57,10 +57,6 @@ public class Task {
         return Id;
     }
 
-    public Employee getEmployee() {
-        return employee;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -73,10 +69,6 @@ public class Task {
         return state;
     }
 
-    public DailyReport getReport() {
-        return report;
-    }
-
     public Date getCreationDate() {
         return creationDate;
     }
@@ -85,12 +77,24 @@ public class Task {
         return changes;
     }
 
-    public void setChanges(List<TaskChange> changes) {
-        this.changes = changes;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setReport(DailyReport report) {
-        this.report = report;
+    public DailyReport getDailyReport() {
+        return dailyReport;
+    }
+
+    public void setDailyReport(DailyReport dailyReport) {
+        this.dailyReport = dailyReport;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public void setChanges(List<TaskChange> changes) {
+        this.changes = changes;
     }
 
     public void setCreationDate(Date creationDate) {
@@ -99,10 +103,6 @@ public class Task {
 
     public void setId(int id) {
         Id = id;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
     }
 
     public void setState(TaskState state) {

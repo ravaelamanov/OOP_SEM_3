@@ -2,7 +2,9 @@ import DTO.DailyReport;
 import DTO.Employee;
 import DTO.Task;
 import DTO.TaskChange;
+import Repositories.DailyReportRepository;
 import Repositories.EmployeeRepository;
+import Repositories.TaskChangeRepository;
 import Repositories.TaskRepository;
 import TaskChanges.Comment;
 import TaskChanges.EmployeeChange;
@@ -13,8 +15,21 @@ import java.util.stream.Collectors;
 
 public class EntityConverter extends BLLService {
 
+    private static EmployeeRepository employeeRepository;
+    private static TaskRepository taskRepository;
+    private static DailyReportRepository dailyReportRepository;
+    private static TaskChangeRepository taskChangeRepository;
+
     public EntityConverter(AbstractRepositoryFactory factory) {
         super(factory);
+    }
+
+    @Override
+    protected void initFactories(AbstractRepositoryFactory factory) {
+        taskRepository = factory.createTaskRepository();
+        employeeRepository = factory.createEmployeeRepository();
+        taskChangeRepository = factory.createTaskChangeRepository();
+        dailyReportRepository = factory.createDailyReportRepository();
     }
 
     public static Task convert(Entities.Task task) {
@@ -23,11 +38,11 @@ public class EntityConverter extends BLLService {
         bllTask.setId(task.getID());
         bllTask.setName(task.getName());
         bllTask.setDescription(task.getDescription());
-        bllTask.setEmployee(convert(task.getEmployee()));
         bllTask.setState(task.getState());
-        bllTask.setCreationDate(task.getCreation_date());
-        bllTask.setChanges(task.getChanges().stream().map(EntityConverter::convert).collect(Collectors.toList()));
-        //bllTask.setReport(task.getReport());
+        bllTask.setCreationDate(task.getCreationDate());
+        bllTask.setEmployee(EntityConverter.convert(task.getEmployee()));
+        bllTask.setDailyReport(EntityConverter.convert(task.getReport()));
+        bllTask.setChanges(taskChangeRepository.getByTask(task).stream().map(EntityConverter::convert).collect(Collectors.toList()));
 
         return bllTask;
     }
@@ -45,7 +60,11 @@ public class EntityConverter extends BLLService {
         dalTask.setEmployee(employee);
         dalTask.setState(task.getState());
         dalTask.setCreation_date(task.getCreationDate());
-        //dalTask.setReport(task.getReport());
+        Entities.DailyReport dailyReport = null;
+        if (task.getDailyReport() != null) {
+            dailyReport = dailyReportRepository.get(task.getDailyReport().getId());
+        }
+        dalTask.setReport(dailyReport);
 
         return dalTask;
     }
@@ -57,11 +76,8 @@ public class EntityConverter extends BLLService {
 
         bllEmployee.setId(employee.getID());
         bllEmployee.setName(employee.getName());
-        if (employee.getMaster() != null) {
-            bllEmployee.setMasterID(employee.getMaster().getID());
-        }
-        bllEmployee.setSlaves(employee.getSlaves().stream().map(EntityConverter::convert).collect(Collectors.toList()));
-        bllEmployee.setTasks(employee.getTasks().stream().map(EntityConverter::convert).collect(Collectors.toList()));
+        bllEmployee.setSlaves(employeeRepository.getSlaves(employee).stream().map(EntityConverter::convert).collect(Collectors.toList()));
+        bllEmployee.setTasks(taskRepository.getByEmployee(employee).stream().map(EntityConverter::convert).collect(Collectors.toList()));
 
         return bllEmployee;
     }
@@ -79,8 +95,6 @@ public class EntityConverter extends BLLService {
             master = employeeRepository.get(employee.getMasterID());
         }
         dalEmployee.setMaster(master);
-        dalEmployee.setSlaves(employee.getSlaves().stream().map(EntityConverter::convert).collect(Collectors.toList()));
-        dalEmployee.setTasks(employee.getTasks().stream().map(EntityConverter::convert).collect(Collectors.toList()));
 
         return dalEmployee;
     }
@@ -155,9 +169,12 @@ public class EntityConverter extends BLLService {
         Entities.DailyReport dalDailyReport = new Entities.DailyReport();
 
         dalDailyReport.setID(dailyReport.getId());
-        dalDailyReport.setEmployee(convert(dailyReport.getEmployee()));
+        Entities.Employee employee = null;
+        if (dailyReport.getEmployee() != null) {
+            employee = employeeRepository.get(dailyReport.getEmployee().getId());
+        }
+        dalDailyReport.setEmployee(employee);
         dalDailyReport.setCreationDate(dailyReport.getCreationDate());
-        dalDailyReport.setAccomplishedTasks(dailyReport.getAccomplishedTasks().stream().map(EntityConverter::convert).collect(Collectors.toList()));
 
         return dalDailyReport;
     }
@@ -168,7 +185,7 @@ public class EntityConverter extends BLLService {
         bllDailyReport.setId(dailyReport.getID());
         bllDailyReport.setEmployee(convert(dailyReport.getEmployee()));
         bllDailyReport.setCreationDate(dailyReport.getCreationDate());
-        bllDailyReport.setAccomplishedTasks(dailyReport.getAccomplishedTasks().stream().map(EntityConverter::convert).collect(Collectors.toList()));
+        bllDailyReport.setAccomplishedTasks(taskRepository.getByReport(dailyReport).stream().map(EntityConverter::convert).collect(Collectors.toList()));
 
         return bllDailyReport;
 

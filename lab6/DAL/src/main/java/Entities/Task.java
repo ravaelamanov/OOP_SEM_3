@@ -34,9 +34,6 @@ public class Task implements IEntity {
     @Temporal(value = TemporalType.DATE)
     private Date creation_date;
 
-    @OneToMany(mappedBy = "task", targetEntity = Entities.TaskChange.class, cascade = CascadeType.ALL)
-    private List<TaskChange> changes;
-
     public Task() {
         name = "";
         description = "";
@@ -69,11 +66,7 @@ public class Task implements IEntity {
         return report;
     }
 
-    public List<TaskChange> getChanges() {
-        return changes;
-    }
-
-    public Date getCreation_date() {
+    public Date getCreationDate() {
         return creation_date;
     }
 
@@ -81,9 +74,6 @@ public class Task implements IEntity {
         this.creation_date = creation_date;
     }
 
-    public void setChanges(List<TaskChange> changes) {
-        this.changes = changes;
-    }
 
     public void setReport(DailyReport report) {
         this.report = report;

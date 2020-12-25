@@ -40,12 +40,17 @@ public class Employee {
         return slaves;
     }
 
+
+    public int getId() {
+        return Id;
+    }
+
     public Integer getMasterID() {
         return masterID;
     }
 
-    public int getId() {
-        return Id;
+    public void setMasterID(Integer masterID) {
+        this.masterID = masterID;
     }
 
     public DailyReport getDailyReport() {
@@ -66,10 +71,6 @@ public class Employee {
 
     public void setId(int id) {
         Id = id;
-    }
-
-    public void setMasterID(Integer masterID) {
-        this.masterID = masterID;
     }
 
     public void setName(String name) {
